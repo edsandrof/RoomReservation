@@ -1,0 +1,26 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /reservation
+
+
+spring:
+  application:
+    name: RoomReservation
+  output:
+    ansi:
+      enabled: always
+
+  jpa:
+    database: postgresql
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    open-in-view: false
+
+  datasource:
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+    url: jdbc:postgresql://localhost:5432/reservation
+    driver-class-name: org.postgresql.Driver
