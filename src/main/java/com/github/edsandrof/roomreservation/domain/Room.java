@@ -1,7 +1,6 @@
 package com.github.edsandrof.roomreservation.domain;
 
 import lombok.*;
-import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -9,7 +8,9 @@ import java.util.Objects;
 @Entity
 @Getter
 @Setter
+@Builder(toBuilder = true)
 @NoArgsConstructor
+@AllArgsConstructor
 public class Room {
 
     @Id
@@ -18,6 +19,8 @@ public class Room {
     private Long id;
 
     private int capacity;
+
+    private int number;
 
     @Enumerated(EnumType.STRING)
     private RoomType type;
@@ -32,13 +35,13 @@ public class Room {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
         Room room = (Room) o;
-        return getId() != null && Objects.equals(getId(), room.getId());
+        return number == room.number && Objects.equals(lodging, room.lodging);
     }
 
     @Override
     public int hashCode() {
-        return getClass().hashCode();
+        return Objects.hash(number, lodging);
     }
 }
