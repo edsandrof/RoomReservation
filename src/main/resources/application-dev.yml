@@ -3,7 +3,6 @@ server:
   servlet:
     context-path: /reservation
 
-
 spring:
   application:
     name: RoomReservation
@@ -24,3 +23,8 @@ spring:
     password: postgres123
     url: jdbc:postgresql://localhost:5432/reservation
     driver-class-name: org.postgresql.Driver
+
+management:
+  endpoint:
+    health:
+      enabled: true
