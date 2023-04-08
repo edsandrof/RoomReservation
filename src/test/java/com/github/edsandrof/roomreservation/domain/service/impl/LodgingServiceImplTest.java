@@ -29,7 +29,7 @@ class LodgingServiceImplTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        this.lodgingServiceImpl = new LodgingServiceImpl();
+        this.lodgingServiceImpl = new LodgingServiceImpl(lodgingRepository);
     }
 
     @Test
