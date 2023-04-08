@@ -13,10 +13,6 @@ services:
     ports:
       - "5432:5432"
 
-  cache:
-    image: redis:7.0-alpine
-    container_name: redis
-    command: redis-server
     restart: always
     ports:
       - "6379:6379"
