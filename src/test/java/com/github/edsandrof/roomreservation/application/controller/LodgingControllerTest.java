@@ -7,56 +7,60 @@ import com.github.edsandrof.roomreservation.domain.service.LodgingService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@ExtendWith(MockitoExtension.class)
+@WebMvcTest(LodgingController.class)
 public class LodgingControllerTest {
 
-    @Mock
-    private LodgingService lodgingService;
+    @Autowired
+    private WebApplicationContext context;
 
-    private LodgingController lodgingController;
+    @MockBean
+    private LodgingService lodgingService;
 
     private MockMvc mockMvc;
 
     @BeforeEach
     void setUp() {
-        this.mockMvc = MockMvcBuilders.standaloneSetup(lodgingController).build();
-        this.lodgingController = new LodgingController(lodgingService);
+        this.mockMvc = MockMvcBuilders.webAppContextSetup(this.context)
+                .build();
     }
 
     @Test
     @DisplayName("Retorna lodging por id")
-    public void testGetLodgingById() throws Exception {
-
-        Long lodgingId = 1L;
+    void testGetLodgingById() throws Exception {
 
         Lodging lodging = TestFactory.createLogding();
         Room room = TestFactory.createRoom(lodging);
 
         lodging.setRooms(new HashSet<>(Collections.singleton(room)));
 
-        Mockito.when(lodgingService.findById(anyLong()))
-                .thenReturn(lodging);
+        when(lodgingService.findById(anyLong()))
+                .thenReturn(Optional.of(lodging));
 
+        mockMvc.perform(get("/lodging/{id}", 1)
+                        .contentType(MediaType.APPLICATION_JSON))
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/lodging/{id}", lodgingId))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().json("{\"id\" : 1}"));
-
+                .andExpect(status().isOk())
+                .andExpect(content().json("{\"id\":1,\"rooms\":[{\"id\":1,\"capacity\":3,\"number\":0,\"type\":\"BASIC\",\"status\":\"AVAILABLE\"}],\"name\":\"lodging\",\"phoneNumber\":\"12345678\",\"category\":\"EXPRESS\",\"type\":\"HOTEL\"}"))
+                .andDo(print());
     }
-
 }
 
