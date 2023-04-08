@@ -14,7 +14,7 @@ spring:
     database: postgresql
     generate-ddl: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
     show-sql: true
     open-in-view: false
 
