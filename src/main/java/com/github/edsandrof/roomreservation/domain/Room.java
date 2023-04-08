@@ -1,5 +1,6 @@
 package com.github.edsandrof.roomreservation.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 
 import javax.persistence.*;
@@ -28,6 +29,7 @@ public class Room {
     @Enumerated(EnumType.STRING)
     private RoomStatus status;
 
+    @JsonBackReference
     @ManyToOne(optional = false)
     @JoinColumn(name = "lodging_id", nullable = false)
     private Lodging lodging;

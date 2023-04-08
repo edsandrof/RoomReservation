@@ -1,4 +1,10 @@
 package com.github.edsandrof.roomreservation.domain.service;
 
-public class LodgingService {
+import com.github.edsandrof.roomreservation.domain.Lodging;
+
+import java.util.Optional;
+
+public interface LodgingService {
+
+    Optional<Lodging> findById(Long id);
 }
