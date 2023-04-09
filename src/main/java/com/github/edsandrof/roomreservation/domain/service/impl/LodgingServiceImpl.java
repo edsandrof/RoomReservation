@@ -18,6 +18,10 @@ public class LodgingServiceImpl implements LodgingService {
 
     @Override
     public Optional<Lodging> findById(Long id) {
-        return lodgingRepository.findById(id);
+        log.info("Searching for lodging id {}", id);
+        Optional<Lodging> lodging = lodgingRepository.findById(id);
+
+        log.info("Lodging with id {} was found: {}", id, lodging.isPresent());
+        return lodging;
     }
 }
