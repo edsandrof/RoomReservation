@@ -23,6 +23,16 @@ http://localhost:9090/targets
 
 http://localhost:9411/zipkin
 
+# terraform
+- download terraform binary:
+  https://developer.hashicorp.com/terraform/downloads
+- put binary file in your path
+- access the terraform directory in this project and type:
+  - terraform init
+  - terraform apply -auto-approve
+  - terraform output
+  - terraform destroy
+
 # Screenshots
 Papertrail
 ![Papertrail](img/papertrail.png)
