@@ -169,3 +169,7 @@ buildNumber.properties
 .idea/vcs.xml
 .idea/inspectionProfiles/Project_Default.xml
 .idea/dataSources.xml
+.jpb/jpb-settings.xml
+.idea/sqldialects.xml
+.idea/modules.xml
+.idea/RoomReservation.iml

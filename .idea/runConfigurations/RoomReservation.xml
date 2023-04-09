@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="RoomReservationApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+  <configuration default="false" name="RoomReservation" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
     <module name="RoomReservation" />
     <option name="SPRING_BOOT_MAIN_CLASS" value="com.github.edsandrof.roomreservation.RoomReservationApplication" />
     <method v="2">

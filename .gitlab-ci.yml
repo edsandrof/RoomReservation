@@ -1,0 +1,25 @@
+image: maven:3.6.3-jdk-11
+
+stages:
+  - build
+  - test
+  - deploy
+
+variables:
+  S3_BUCKET_NAME: "your-s3-bucket-name"
+  APPLICATION_NAME: "your-application-name"
+  AWS_REGION: "us-west-2"
+  ENVIRONMENT_NAME: "your-environment-name"
+
+build:
+  stage: build
+  script:
+    - mvn clean package
+  artifacts:
+    paths:
+      - target/*.jar
+
+test:
+  stage: test
+  script:
+    - mvn test
