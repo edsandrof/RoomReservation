@@ -24,6 +24,10 @@ spring:
     url: jdbc:postgresql://localhost:5432/reservation
     driver-class-name: org.postgresql.Driver
 
+  zipkin:
+    base-url: http://localhost:9411
+    
+
 management:
   endpoints:
     web:

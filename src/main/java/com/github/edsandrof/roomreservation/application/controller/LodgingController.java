@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
+import java.util.Random;
 
 @RestController
 @RequestMapping("/lodging")
@@ -19,7 +20,9 @@ public class LodgingController {
 
     @Timed(value = "getLodging.time", description = "Time taken to get lodging by id")
     @GetMapping("/{id}")
-    public ResponseEntity<LodgingDTO> findById(@PathVariable Long id) {
+    public ResponseEntity<LodgingDTO> findById(@PathVariable Long id) throws InterruptedException {
+
+        Thread.sleep(new Random().nextInt(2001) + 1000);
         Optional<Lodging> lodging = lodgingService.findById(id);
 
         if (lodging.isPresent()) {
