@@ -19,13 +19,13 @@ spring:
     open-in-view: false
 
   datasource:
-    username: postgres
-    password: postgres123
-    url: jdbc:postgresql://localhost:5432/reservation
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+    url: ${SPRING_DATASOURCE_URL}
     driver-class-name: org.postgresql.Driver
 
   zipkin:
-    base-url: http://localhost:9411
+    base-url: ${SPRING_ZIPKIN_BASE-URL}
     
 
 management:
