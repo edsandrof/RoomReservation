@@ -15,6 +15,14 @@ services:
     volumes:
       - ./init.sql:/docker-entrypoint-initdb.d/create_tables.sql
 
+
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
     restart: always
     ports:
-      - "6379:6379"
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
