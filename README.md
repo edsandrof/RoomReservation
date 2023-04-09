@@ -3,6 +3,8 @@ spring boot and devops project
 
 # Run
 - install docker
+- git clone https://github.com/edsandrof/RoomReservation.git
+- cd RoomReservation
 - docker compose up -d
 - make GET request http://localhost:8080/reservation/lodging/1
 
