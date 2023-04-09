@@ -25,6 +25,7 @@ spring:
     driver-class-name: org.postgresql.Driver
 
 management:
-  endpoint:
-    health:
-      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: health, info, prometheus
