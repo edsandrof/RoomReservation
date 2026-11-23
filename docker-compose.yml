@@ -30,7 +30,7 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/reservation
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: postgres123
-      SPRING_ZIPKIN_BASE-URL: http://zipkin:9411
+      SPRING_ZIPKIN_BASE_URL: http://zipkin:9411
 
   prometheus:
     image: prom/prometheus
