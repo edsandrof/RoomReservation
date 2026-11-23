@@ -1,0 +1,5 @@
+## running act (github actions locally):
+# install docker desktop
+# winget install nektos.act
+
+-P ubuntu-latest=maven:3.9-eclipse-temurin-11
