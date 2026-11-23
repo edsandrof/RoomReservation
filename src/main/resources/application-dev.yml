@@ -25,7 +25,7 @@ spring:
     driver-class-name: org.postgresql.Driver
 
   zipkin:
-    base-url: ${SPRING_ZIPKIN_BASE-URL}
+    base-url: ${SPRING_ZIPKIN_BASE_URL}
     
 
 management:
