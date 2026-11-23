@@ -20,10 +20,11 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
-      - name: Check Java and Maven versions
+      - name: Check Java and Maven
         run: |
           java -version
           mvn -version
+          mvn dependency:tree -Dincludes=org.projectlombok:lombok
 
       - name: Build with Maven
         run: mvn -B clean package -DskipTests
