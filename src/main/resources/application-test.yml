@@ -1,0 +1,26 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /reservation
+
+spring:
+  application:
+    name: RoomReservation
+  output:
+    ansi:
+      enabled: always
+
+  jpa:
+    database: h2
+    generate-ddl: true
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    open-in-view: false
+
+  datasource:
+    username: sa
+    password: 
+    url: jdbc:h2:mem:testdb
+    driver-class-name: org.h2.Driver
+
