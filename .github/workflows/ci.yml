@@ -1,17 +1,26 @@
-name: Java CI with Maven
+
+name: Java CI
 
 on:
   push:
-    branches: ["master"]
+    branches: [ "master" ]
   pull_request:
-    branches: ["master"]
+    branches: [ "master" ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
+    env:
+      SPRING_DATASOURCE_URL: ${{ secrets.SPRING_DATASOURCE_URL }}
+      SPRING_DATASOURCE_USERNAME: ${{ secrets.SPRING_DATASOURCE_USERNAME }}
+      SPRING_DATASOURCE_PASSWORD: ${{ secrets.SPRING_DATASOURCE_PASSWORD }}
+      SPRING_ZIPKIN_BASE_URL: ${{ vars.SPRING_ZIPKIN_BASE_URL }}
+
     steps:
-    - uses: actions/checkout@v4
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
     - name: Set up JDK 11
       uses: actions/setup-java@v4
       with:
@@ -19,11 +28,33 @@ jobs:
         distribution: 'temurin'
         cache: maven
 
-    - name: Check Java and Maven
+    - name: Build and test with Maven
       run: |
-        java -version
-        mvn -version
-        mvn dependency:tree -Dincludes=org.projectlombok:lombok
+        chmod +x mvnw
+        ./mvnw -B clean verify
+        echo "Build and test completed successfully"
 
-    - name: Build with Maven
-      run: mvn -B clean package -DskipTests
+    - name: Configure SSH
+      if: github.event_name == 'push'
+      uses: webfactory/ssh-agent@v0.9.0
+      with:
+        ssh-private-key: ${{ secrets.EC2_SSH_KEY }}
+
+    - name: Add EC2 to known hosts
+      if: github.event_name == 'push'
+      run: |
+        mkdir -p ~/.ssh
+        ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
+
+    - name: Copy JAR to EC2
+      if: github.event_name == 'push'
+      run: |
+        scp target/*.jar \
+          ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}:/opt/roomreservation/app.jar
+
+    - name: Restart application
+      if: github.event_name == 'push'
+      run: |
+        ssh ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} \
+          "sudo systemctl restart roomreservation"
+
