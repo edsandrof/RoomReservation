@@ -1,19 +1,21 @@
-version: '3'
 
 services:
   db:
     image: postgres:12.14-alpine
     container_name: postgres
     restart: always
-
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres123
       POSTGRES_DB: reservation
-    ports:
-      - "5432:5432"
     volumes:
+      - postgres_data:/var/lib/postgresql/data
       - ./init.sql:/docker-entrypoint-initdb.d/create_tables.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d reservation"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
 
   app:
     build:
@@ -25,7 +27,8 @@ services:
     ports:
       - "8080:8080"
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/reservation
       SPRING_DATASOURCE_USERNAME: postgres
@@ -36,8 +39,6 @@ services:
     image: prom/prometheus
     container_name: prometheus
     restart: always
-    ports:
-      - "9090:9090"
     volumes:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml
     extra_hosts:
@@ -47,5 +48,6 @@ services:
     image: openzipkin/zipkin
     container_name: zipkin
     restart: always
-    ports:
-      - "9411:9411"
+
+volumes:
+  postgres_data:
